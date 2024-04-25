@@ -1,3 +1,5 @@
+import { AppLoadContext } from "@remix-run/server-runtime";
+
 export type SitemapEntry = {
   route: string;
   lastmod?: string;
@@ -14,7 +16,8 @@ export type SitemapEntry = {
 
 export type SEOHandle = {
   getSitemapEntries?: (
-    request: Request
+    request: Request,
+    context?: AppLoadContext
   ) =>
     | Promise<Array<SitemapEntry | null> | null>
     | Array<SitemapEntry | null>

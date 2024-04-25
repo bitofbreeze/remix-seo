@@ -1,6 +1,6 @@
 // This is adapted from https://github.com/kentcdodds/kentcdodds.com
 
-import { EntryContext } from "@remix-run/server-runtime";
+import { EntryContext, AppLoadContext } from "@remix-run/server-runtime";
 import isEqual from "lodash.isequal";
 import { SEOHandle, SitemapEntry } from "../types";
 
@@ -21,7 +21,8 @@ function removeTrailingSlash(s: string) {
 async function getSitemapXml(
   request: Request,
   remixContext: EntryContext,
-  options: Options
+  options: Options,
+  context?: AppLoadContext
 ) {
   const { siteUrl } = options;
 
@@ -48,7 +49,7 @@ async function getSitemapXml(
 
         const handle = mod.handle as SEOHandle | undefined;
         if (handle?.getSitemapEntries) {
-          return handle.getSitemapEntries(request);
+          return handle.getSitemapEntries(request, context);
         }
 
         // exclude resource routes from the sitemap
